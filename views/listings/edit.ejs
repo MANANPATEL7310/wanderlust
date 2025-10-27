@@ -1,0 +1,161 @@
+<% layout("layouts/boilerplate") %>
+
+<body class="bg-light">
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="card shadow-lg border-0 rounded-3">
+          <div class="card-body p-4">
+            <h2 class="card-title text-center mb-4 text-danger fw-bold">
+              Edit your data
+            </h2>
+
+            <form
+              method="POST"
+              action="/listings/<%= listing._id %>?_method=PUT"
+              class="needs-validation"
+              novalidate
+              enctype="multipart/form-data"
+            >
+              <!-- Title -->
+              <div class="mb-3">
+                <label for="title" class="form-label"
+                  >Title of the Destination</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title"
+                  name="listing[title]"
+                  value="<%= listing.title %>"
+                  placeholder="Enter title"
+                  required
+                />
+                <div class="valid-feedback">Title looks good!</div>
+                <div class="invalid-feedback">Title should be valid.</div>
+              </div>
+
+              <!-- Description -->
+              <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea
+                  class="form-control"
+                  id="description"
+                  name="listing[description]"
+                  rows="3"
+                  placeholder="Enter Description"
+                  required
+                ><%= listing.description %></textarea
+                >
+                <div class="invalid-feedback">
+                  Please enter a short Description.
+                </div>
+              </div>
+
+              <!-- Image URL -->
+              <div class="mb-3">
+                <label for="image" class="form-label">Upload Image</label>
+
+<!-- Show existing image preview -->
+<% if (listing.image && listing.image.url) { %>
+  <div class="mb-2">
+    <img
+      src="<%= listing.image.url %>"
+      alt="Current Image"
+      style="max-width: 200px; display: inline-block;"
+    />
+    <spna style="color: blue;">(Uploaded Image)</spna>
+  </div>
+  <!-- Hidden inputs to keep existing image if no new one is uploaded -->
+  <input type="hidden" name="existingImage[url]" value="<%= listing.image.url %>">
+  <input type="hidden" name="existingImage[filename]" value="<%= listing.image.filename %>">
+<% } %>
+
+<!-- File input for new image -->
+<div class="mb-3">
+  <label for="image" class="form-label">Upload New Image</label>
+  <input
+    type="file"
+    class="form-control"
+    id="image"
+    name="listing[image]"
+  />
+  <small class="text-muted">
+    Choose a new file to replace the existing image (or leave empty to keep current one).
+  </small>
+</div>
+
+
+              <!-- <div class="mb-3">
+                <label for="image" class="form-label">Image URL</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="image"
+                  name="listing[image]"
+                  placeholder="Enter image URL"
+                  required
+                />
+                <div class="invalid-feedback">Image url should be valid.</div>
+              </div> -->
+
+              <!-- Price -->
+              <div class="row">
+                <div class="mb-3 col-md-6">
+                  <label for="price" class="form-label">Price (₹)</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="price"
+                    name="listing[price]"
+                    value="<%= listing.price %>"
+                    placeholder="Enter Price"
+                    required
+                  />
+                  <div class="invalid-feedback">Price should be valid.</div>
+                </div>
+
+                <!-- Country -->
+                <div class="mb-4 col-md-6">
+                  <label for="country" class="form-label">Country</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="country"
+                    name="listing[country]"
+                    value="<%= listing.country %>"
+                    placeholder="Enter country"
+                    required
+                  />
+                  <div class="invalid-feedback">Country should be valid.</div>
+                </div>
+              </div>
+
+              <!-- Location -->
+              <div class="mb-3">
+                <label for="location" class="form-label">Location</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="location"
+                  name="listing[location]"
+                  value="<%= listing.location %>"
+                  placeholder="Enter location"
+                  required
+                />
+                <div class="invalid-feedback">Location should be valid.</div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="d-grid">
+                <button type="submit" class="btn btn-danger btn-lg shadow-sm">
+                  <i class="fa-solid fa-pen-to-square me-2"></i> Update
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

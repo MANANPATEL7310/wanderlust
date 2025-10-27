@@ -1,0 +1,134 @@
+<% layout("layouts/boilerplate") %>
+
+<body class="bg-light">
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="card shadow-lg border-0 rounded-3">
+          <div class="card-body p-4">
+            <h2 class="card-title text-center mb-4 text-danger fw-bold">
+              Add New Destination
+            </h2>
+
+            <form
+              method="POST"
+              action="/listings"
+              class="needs-validation"
+              novalidate
+              enctype="multipart/form-data"
+            >
+              <!-- Title -->
+              <div class="mb-3">
+                <label for="title" class="form-label"
+                  >Title of the Destination</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title"
+                  name="listing[title]"
+                  placeholder="Add a catchy title"
+                  required
+                />
+                <div class="valid-feedback">Title looks good!</div>
+                <div class="invalid-feedback">Title should be valid.</div>
+              </div>
+
+              <!-- Description -->
+              <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea
+                  class="form-control"
+                  id="description"
+                  name="listing[description]"
+                  rows="3"
+                  placeholder="Enter Description"
+                  required
+                ></textarea>
+                <div class="invalid-feedback">
+                  Please enter a short Description.
+                </div>
+              </div>
+
+              <!-- $ Image URL -->
+              <!-- <div class="mb-3">
+                <label for="image" class="form-label">Image URL</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="image"
+                  name="listing[image]"
+                  placeholder="Enter image URL/Link"
+                />
+              </div> -->
+
+              <!-- $ Image Upload -->
+              <div class="mb-3">
+                <label for="image" class="form-label">Upload Image</label>
+                <input
+                  type="file"
+                  class="form-control"
+                  id="image"
+                  name="listing[image]"
+                  required
+                />
+              </div>
+
+
+              <!-- Price -->
+              <div class="row">
+                <div class="mb-3 col-md-6">
+                  <label for="price" class="form-label">Price (₹)</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="price"
+                    name="listing[price]"
+                    placeholder="1200"
+                    required
+                  />
+                  <div class="invalid-feedback">Price should be valid.</div>
+                </div>
+
+                <!-- Country -->
+                <div class="mb-4 col-md-6">
+                  <label for="country" class="form-label">Country</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="country"
+                    name="listing[country]"
+                    placeholder="India"
+                    required
+                  />
+                  <div class="invalid-feedback">Country should be valid.</div>
+                </div>
+              </div>
+
+              <!-- Location -->
+              <div class="mb-3">
+                <label for="location" class="form-label">Location</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="location"
+                  name="listing[location]"
+                  placeholder="Ahmedabad,Gujarat"
+                  required
+                />
+                <div class="invalid-feedback">Location should be valid.</div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="d-grid">
+                <button type="submit" class="btn btn-danger btn-lg shadow-sm">
+                  <i class="fa-solid fa-plus-circle me-2"></i> Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

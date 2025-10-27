@@ -1,0 +1,28 @@
+/* Tooltip styling for Starability stars */
+.star-tooltips label {
+  position: relative;
+}
+
+/* Create the tooltip box */
+.star-tooltips label::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  opacity: 0;
+  pointer-events: none;
+  white-space: nowrap;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Show tooltip on hover */
+.star-tooltips label:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px);
+}

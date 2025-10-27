@@ -1,0 +1,138 @@
+/* Body */
+body{
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+  display:flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container{
+  flex:1;
+}
+
+/* Navbar */
+.navbar{
+  height: 5rem;
+  background-color: rgba(255, 255, 255, 0.0); /* Transparent */
+  backdrop-filter: blur(10px); /* Modern frosted glass effect */
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  margin-bottom: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+/* Change background slightly on scroll (optional) */
+.navbar.scrolled {
+  background-color: rgba(255,255,255,0.8);
+}
+
+.fa-compass{
+  color: #fe424d;
+  font-size: 2rem;
+}
+
+/* Navbar links styling */
+.navbar-nav .nav-link {
+  position: relative;
+  color: #222;
+  font-weight: 500;
+  padding: 0.5rem 0.7rem;
+  transition: all 0.3s ease;
+}
+
+/* Hover underline animation */
+.navbar-nav .nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #fe424d;
+  transition: width 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover::after {
+  width: 100%;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #fe424d;
+  transform: translateY(-2px);
+}
+
+/* Buttons */
+.btn-outline-primary, .btn-outline-success, .btn-outline-danger {
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+.btn-outline-success:hover {
+  background-color: #198754;
+  color: #fff;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+/* Offcanvas links (small screens) */
+.offcanvas .nav-link {
+  font-weight: 500;
+  color: #222;
+}
+
+.offcanvas .nav-link:hover {
+  color: #fe424d;
+}
+
+/* Footer (unchanged) */
+.f-info-socials{
+  display:flex ;
+  gap:1rem; 
+}
+
+.f-info-socials a{
+  color:rgb(30,48,80);
+  font-size: x-large;
+  margin-bottom: 1vh;
+}
+
+.f-info{
+  height:10rem;
+  background-color: #ebebeb;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.f-info-links{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap:1vw;
+}
+
+.f-info-links a{
+  text-decoration: none;
+}
+
+.f-info-links a:hover{
+  text-decoration: underline;
+}
+
+/* Card */
+.listing-link{
+  color:#222;
+  text-decoration: none;
+}
+
+.card-img-top:hover{
+  opacity:0.5;
+  background-color: whitesmoke;
+}
