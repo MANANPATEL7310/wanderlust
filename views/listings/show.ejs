@@ -198,7 +198,8 @@
           </form>
  <%} %>
           <hr />
-
+           
+          <% if(listing.reviews.length > 0) { %>
           <!-- All Reviews -->
           <h4 class="mt-4 mb-4 text-center">✨ All Reviews ✨</h4>
           <div class="row g-4">
@@ -248,11 +249,39 @@
             </div>
             <% } %>
           </div>
+          <% } %>
+
+            <div id="map"></div>
+
+              <!-- Expose coords to front-end safely -->
+<script>
+  const coords = JSON.parse('<%- JSON.stringify(listing.geometry ? listing.geometry.coordinates : [0, 0]) %>');
+
+  window.listingCoords = {
+    lat: coords[1],
+    lng: coords[0]
+  };
+
+  window.gmapsApiKey = "<%- GOOGLE_MAPS_API_KEY %>";
+</script>
+
+
+
+
+  <script src="/js/map.js"></script>
+   <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= GOOGLE_MAPS_API_KEY %>&callback=initMap"></script>
         </div>
       </div>
     </div>
   </div>
 
+
+  <!-- Map Styles -->
+
+    <style>
+    #map { height: 400px; width: 100%; border-radius: 8px; margin-top: 16px; }
+  </style>
+  
   <!-- Animation Styles -->
   <style>
 

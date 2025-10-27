@@ -11,11 +11,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
-const {
-  newListingSchema,
-  updateListingSchema,
-  reviewSchema,
-} = require("./schema.js");
+
 const Review = require("./models/review.js");
 const session = require("express-session");
 const MongoStore = require('connect-mongo');
@@ -83,6 +79,7 @@ app.use((req, res, next) => {
   res.locals.successMsg = req.flash("success");
   res.locals.errorMsg = req.flash("error");
   res.locals.currentUser = req.user;
+  res.locals.GOOGLE_MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY;
   next();
 });
 
@@ -122,6 +119,6 @@ app.use((err, req, res, next) => {
   // res.status(status).send(message);
 });
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 8080, () => {
   console.log("App is listening Now!");
 });

@@ -1,6 +1,7 @@
 const Listing = require("../models/listing");
 const ExpressError = require("../utils/ExpressError.js");
 const {cloudinary} = require("../cloudConfig.js");
+const axios = require('axios');
 
 //$ index controller
 module.exports.index=async (req, res) => {
@@ -22,6 +23,19 @@ module.exports.createListing=async (req, res) => {
     // OR
     let url=req.file.path;
     let filename=req.file.filename;
+    const {location} = req.body.listing;
+    
+      const geoRes = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+      params: { address: location, key: process.env.GOOGLE_MAPS_API_KEY }
+      });
+       console.log(geoRes.data);
+      if (!geoRes.data.results || geoRes.data.results.length === 0) {
+      req.flash('error', 'Location not found. Please enter a valid address.');
+      return res.redirect('/listings/new');
+    }
+
+const { lat, lng } = geoRes.data.results[0].geometry.location;
+
 
     let newListing = new Listing(req.body.listing);
     //  if (!newListing.description){
@@ -31,6 +45,8 @@ module.exports.createListing=async (req, res) => {
     
     newListing.owner = req.user._id;
     newListing.image={url,filename};
+    newListing.geometry={ type: 'Point', coordinates: [lng, lat] }
+
     await newListing.save();
     req.flash("success", "Successfully New Listing Created!");
     res.redirect("/listings");
@@ -74,17 +90,30 @@ module.exports.editListingForm=async (req, res) => {
 module.exports.updateListing = async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id);
+  const { location } = req.body.listing;
 
   if (!listing) {
     req.flash("error", "Listing not found!");
     return res.redirect("/listings");
   }
 
+    const geoRes = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+      params: { address: location, key: process.env.GOOGLE_MAPS_API_KEY }
+    });
+
+      if (!geoRes.data.results || geoRes.data.results.length === 0) {
+      req.flash('error', 'Location not found. Please enter a valid address.');
+      return res.redirect(`/listings/${id}/edit`);
+    }
+
+     const { lat, lng } = geoRes.data.results[0].geometry.location;
+
   //  Keep old image info before modifying anything
   const oldImage = listing.image ? listing.image.filename : null;
 
   //  Update other fields (title, price, etc.)
   listing.set(req.body.listing);
+  listing.geometry = { type: 'Point', coordinates: [lng, lat] };
 
   //  Handle image upload
   if (req.file) {
@@ -100,7 +129,7 @@ module.exports.updateListing = async (req, res) => {
       filename: req.file.filename,
     };
 
-    console.log("New image added:", listing.image);
+    // console.log("New image added:", listing.image);
   }
 
   //  Save updated listing
