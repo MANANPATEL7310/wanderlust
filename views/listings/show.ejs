@@ -198,7 +198,8 @@
           </form>
  <%} %>
           <hr />
-
+          
+           <% if(listing.reviews.length > 0) { %>
           <!-- All Reviews -->
           <h4 class="mt-4 mb-4 text-center">✨ All Reviews ✨</h4>
           <div class="row g-4">
@@ -248,6 +249,7 @@
             </div>
             <% } %>
           </div>
+          <% } %>
         </div>
       </div>
     </div>
