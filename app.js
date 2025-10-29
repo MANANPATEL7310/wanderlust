@@ -83,6 +83,7 @@ app.use((req, res, next) => {
   res.locals.successMsg = req.flash("success");
   res.locals.errorMsg = req.flash("error");
   res.locals.currentUser = req.user;
+  res.locals.mapboxToken=process.env.MAPBOX_TOKEN;
   next();
 });
 

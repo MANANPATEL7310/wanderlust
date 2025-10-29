@@ -1,5 +1,10 @@
 <% layout("layouts/boilerplate") %>
 
+<script>
+  window.mapboxToken = '<%= mapboxToken %>';
+  window.listingCoords = JSON.parse('<%- JSON.stringify(listing && listing.geometry ? listing.geometry.coordinates : [77.06971, 28.679079]) %>');
+</script>
+
 <body class="bg-light">
   <div class="container my-5">
     <div class="row justify-content-center">
@@ -249,11 +254,19 @@
             </div>
             <% } %>
           </div>
+          <hr>
           <% } %>
+          <h3 class="mt-4 mb-4 "><strong>Where you'll be</strong></h3>
+          <div id="map"></div>
+          
         </div>
       </div>
     </div>
   </div>
+
+<script src="/js/map.js"></script>
+
+
 
   <!-- Animation Styles -->
   <style>
