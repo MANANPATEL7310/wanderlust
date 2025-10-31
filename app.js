@@ -37,7 +37,7 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "public")));
 
-const MONGO_URL = process.env.MONGODB_URL;
+const MONGO_URL = process.env.MONGODB_URL; // here MONGO_URL is the variable name in .env file which contains the connection string of the mongo atlas.
 async function main() {
   await mongoose.connect(MONGO_URL);
 }
