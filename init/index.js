@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
 const initData = require("./data.js");
 const Listing = require("../models/listing.js");
-require("dotenv").config({ path: "../.env" });
 
+if(process.env.Node_ENV!="production"){
+  require("dotenv").config({ path: "../.env" });
+}
 
 const MONGO_URL = process.env.MONGODB_URL; // here MONGO_URL is the variable name in .env file which contains the connection string of the mongo atlas.
 
