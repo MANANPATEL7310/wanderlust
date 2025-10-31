@@ -20,7 +20,7 @@
               <!-- Title -->
               <div class="mb-3">
                 <label for="title" class="form-label"
-                  >Title of the Destination</label
+                  ><strong>Title of the Destination</strong></label
                 >
                 <input
                   type="text"
@@ -37,7 +37,7 @@
 
               <!-- Description -->
               <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
+                <label for="description" class="form-label"><strong>Description</strong></label>
                 <textarea
                   class="form-control"
                   id="description"
@@ -54,7 +54,7 @@
 
               <!-- Image URL -->
               <div class="mb-3">
-                <label for="image" class="form-label">Upload Image</label>
+                <label for="image" class="form-label"><strong>Upload Image</strong></label>
 
 <!-- Show existing image preview -->
 <% if (listing.image && listing.image.url) { %>
@@ -73,7 +73,7 @@
 
 <!-- File input for new image -->
 <div class="mb-3">
-  <label for="image" class="form-label">Upload New Image</label>
+  <label for="image" class="form-label"><strong>Upload New Image</strong></label>
   <input
     type="file"
     class="form-control"
@@ -102,7 +102,7 @@
               <!-- Price -->
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="price" class="form-label">Price (₹)</label>
+                  <label for="price" class="form-label"><strong>Price (₹)</strong></label>
                   <input
                     type="number"
                     class="form-control"
@@ -117,7 +117,7 @@
 
                 <!-- Country -->
                 <div class="mb-4 col-md-6">
-                  <label for="country" class="form-label">Country</label>
+                  <label for="country" class="form-label"><strong>Country</strong></label>
                   <input
                     type="text"
                     class="form-control"
@@ -133,7 +133,7 @@
 
               <!-- Location -->
               <div class="mb-3">
-                <label for="location" class="form-label">Location</label>
+                <label for="location" class="form-label"><strong>Location</strong></label>
                 <input
                   type="text"
                   class="form-control"
@@ -145,6 +145,55 @@
                 />
                 <div class="invalid-feedback">Location should be valid.</div>
               </div>
+
+     <!-- Categories -->
+<div class="mb-4">
+  <label for="categories" class="form-label fw-semibold">
+    Select Categories
+  </label>
+  <select
+    id="categories"
+    name="listing[categories][]"
+    class="form-select"
+    multiple
+    required
+  >
+    <% const allCategories = [
+      "Rooms",
+      "Beach",
+      "Cabins",
+      "City",
+      "Farms",
+      "Lakefront",
+      "Hotels",
+      "Mountain",
+      "Pools",
+      "Boats",
+      "Camping",
+      "Arctic",
+      "Unique",
+    ]; %>
+
+    <% allCategories.forEach(cat => { %>
+      <option
+        value="<%= cat %>"
+        <%= listing.categories && listing.categories.includes(cat) ? "selected" : "" %>>
+        <%= cat %>
+      </option>
+    <% }); %>
+  </select>
+
+  <small class="text-muted d-block mt-1">
+    You can select multiple categories (e.g., Beach + Unique).
+  </small>
+
+  <div class="invalid-feedback">Please select at least one category.</div>
+</div>
+
+
+
+              
+
 
               <!-- Submit Button -->
               <div class="d-grid">
@@ -158,4 +207,17 @@
       </div>
     </div>
   </div>
+
+
+<!-- Initialize Choices.js -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const categorySelect = document.getElementById("categories");
+    const choices = new Choices(categorySelect, {
+      removeItemButton: true,
+      shouldSort: false,
+    });
+  });
+</script>
+
 </body>

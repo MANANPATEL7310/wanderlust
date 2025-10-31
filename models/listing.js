@@ -35,7 +35,7 @@ const listingSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  
+
   // we will use GeoJSON format to store the location data
   geometry: {
     type: {
@@ -48,6 +48,31 @@ const listingSchema = new Schema({
       required: true,
     },
   },
+  categories: {
+    type: [String],
+    enum: [
+      "Rooms",
+      "Beach",
+      "Cabins",
+      "City",
+      "Farms",
+      "Lakefront",
+      "Hotels",
+      "Mountain",
+      "Pools",
+      "Boats",
+      "Camping",
+      "Arctic",
+      "Unique",
+    ],
+    default: [],
+  },
+    averageRating: {
+    type: Number,
+    min: 0,
+    max: 5,
+    default: 0, // 0 means no reviews yet
+  },
 });
 
 listingSchema.post("findOneAndDelete", async (listing) => {
@@ -55,6 +80,27 @@ listingSchema.post("findOneAndDelete", async (listing) => {
     let res = await Review.deleteMany({ _id: { $in: listing.reviews } });
   }
 });
+
+listingSchema.methods.updateAverageRating = async function () {
+  const Review = require("./review");
+
+  // Find all reviews linked to this listing
+  const reviews = await Review.find({ listing: this._id });
+
+  if (reviews.length === 0) {
+    this.averageRating = 0;
+  } else {
+    const avg =
+      reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+    this.averageRating = Math.round(avg * 10) / 10; // Round to 1 decimal place
+  }
+
+  await this.save();
+};
+
+
+
+
 
 const Listing = mongoose.model("Listing", listingSchema);
 

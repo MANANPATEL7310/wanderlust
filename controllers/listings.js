@@ -7,8 +7,48 @@ const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
 //$ index controller
 module.exports.index = async (req, res) => {
-  let allListings = await Listing.find();
-  res.render("listings/index.ejs", { allListings });
+  const { category, priceRange, rating } = req.query;
+  let filter = {};
+
+  // Category filter (from category buttons or modal)
+  if (category) {
+    const categories = category.split(",");
+    filter.categories = { $in: categories };
+  }
+
+  // Price range filter
+  if (priceRange) {
+    switch (priceRange) {
+      case "0-1000":
+        filter.price = { $gte: 0, $lte: 1000 };
+        break;
+      case "1000-5000":
+        filter.price = { $gte: 1000, $lte: 5000 };
+        break;
+      case "5000-10000":
+        filter.price = { $gte: 5000, $lte: 10000 };
+        break;
+      case "10000+":
+        filter.price = { $gte: 10000 };
+        break;
+      default:
+        break;
+    }
+  }
+
+  // Rating filter
+  if (rating) {
+    if (rating === "no-rating") {
+      // Filter for listings with no reviews (averageRating = 0)
+      filter.averageRating = 0;
+    } else if (!isNaN(rating)) {
+      // Filter for listings with rating >= selected value
+      filter.averageRating = { $gte: parseFloat(rating) };
+    }
+  }
+
+  const allListings = await Listing.find(filter);
+  res.render("listings/index.ejs", { allListings, query: req.query });
 };
 
 // $ newListingForm controller
@@ -42,6 +82,11 @@ module.exports.createListing = async (req, res) => {
   newListing.owner = req.user._id;
   newListing.image = { url, filename };
   newListing.geometry = response.body.features[0].geometry;
+  newListing.categories = Array.isArray(req.body.listing.categories) 
+    ? req.body.listing.categories 
+    : req.body.listing.categories 
+      ? [req.body.listing.categories]
+      : [];
   await newListing.save();
   req.flash("success", "Successfully New Listing Created!");
   res.redirect("/listings");
@@ -95,12 +140,21 @@ module.exports.updateListing = async (req, res) => {
   //  Update other fields (title, price, etc.)
   listing.set(req.body.listing);
 
+  //  Handle categories - convert to array if needed
+  if (req.body.listing.categories) {
+    listing.categories = Array.isArray(req.body.listing.categories) 
+      ? req.body.listing.categories 
+      : req.body.listing.categories 
+        ? [req.body.listing.categories]
+        : [];
+  }
+
   //  Handle image upload
   if (req.file) {
     //  Destroy old image only if it exists
     if (oldImage) {
       const result = await cloudinary.uploader.destroy(oldImage);
-      console.log("Cloudinary destroy result:", result);
+      // console.log("Cloudinary destroy result:", result);
     }
 
     //  Add new image data
@@ -109,7 +163,7 @@ module.exports.updateListing = async (req, res) => {
       filename: req.file.filename,
     };
 
-    console.log("New image added:", listing.image);
+    // console.log("New image added:", listing.image);
   }
 
   //  Save updated listing

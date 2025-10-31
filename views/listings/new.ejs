@@ -20,7 +20,7 @@
               <!-- Title -->
               <div class="mb-3">
                 <label for="title" class="form-label"
-                  >Title of the Destination</label
+                  ><strong>Title of the Destination</strong></label
                 >
                 <input
                   type="text"
@@ -36,7 +36,7 @@
 
               <!-- Description -->
               <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
+                <label for="description" class="form-label"><strong>Description</strong></label>
                 <textarea
                   class="form-control"
                   id="description"
@@ -64,7 +64,7 @@
 
               <!-- $ Image Upload -->
               <div class="mb-3">
-                <label for="image" class="form-label">Upload Image</label>
+                <label for="image" class="form-label"><strong>Upload Image</strong></label>
                 <input
                   type="file"
                   class="form-control"
@@ -78,7 +78,7 @@
               <!-- Price -->
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="price" class="form-label">Price (₹)</label>
+                  <label for="price" class="form-label"><strong>Price (₹)</strong></label>
                   <input
                     type="number"
                     class="form-control"
@@ -107,7 +107,7 @@
 
               <!-- Location -->
               <div class="mb-3">
-                <label for="location" class="form-label">Location</label>
+                <label for="location" class="form-label"><strong>Location</strong></label>
                 <input
                   type="text"
                   class="form-control"
@@ -118,6 +118,52 @@
                 />
                 <div class="invalid-feedback">Location should be valid.</div>
               </div>
+
+<!-- Categories -->
+<div class="mb-4">
+  <label for="categories" class="form-label fw-semibold">
+    Select Categories
+        <!-- Tooltip Icon -->
+    <i
+      class="fa-solid fa-circle-info text-info ms-1"
+      data-bs-toggle="tooltip"
+      data-bs-placement="right"
+      title="Select one or more categories that describe your destination (e.g., Beach, Mountain, City)."
+      style="cursor: pointer;"
+    ></i>
+  </label>
+    <small class="text-muted d-block mt-1">
+    You can select multiple categories (e.g., Beach + Unique).
+  </small>
+  <select
+    id="categories"
+    name="listing[categories][]"
+    class="form-select"
+    multiple
+    required
+  >
+    <option value="Rooms">Rooms</option>
+    <option value="Beach">Beach</option>
+    <option value="Cabins">Cabins</option>
+    <option value="City">City</option>
+    <option value="Farms">Farms</option>
+    <option value="Lakefront">Lakefront</option>
+    <option value="Hotels">Hotels</option>
+    <option value="Mountain">Mountain</option>
+    <option value="Pools">Pools</option>
+    <option value="Boats">Boats</option>
+    <option value="Camping">Camping</option>
+    <option value="Arctic">Arctic</option>
+    <option value="Unique">Unique</option>
+  </select>
+
+
+
+  <div class="invalid-feedback">Please select at least one category.</div>
+</div>
+
+
+
 
               <!-- Submit Button -->
               <div class="d-grid">
@@ -131,4 +177,23 @@
       </div>
     </div>
   </div>
+
+
+  <!-- Initialize Choices.js -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const element = document.querySelector("#categories");
+    if (element) {
+      new Choices(element, {
+        removeItemButton: true,
+        placeholder: true,
+        placeholderValue: "Select categories",
+      });
+    }
+  });
+
+      // Initialize Bootstrap tooltip
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    [...tooltipTriggerList].map(el => new bootstrap.Tooltip(el));
+</script>
 </body>

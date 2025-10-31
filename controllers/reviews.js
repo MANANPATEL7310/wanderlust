@@ -9,7 +9,8 @@ module.exports.postReview=async (req, res) => {
 
     // 🟢 Here you set which user created it
     newReview.author = req.user._id;
-
+    newReview.listing = listing._id;
+    
     await newReview.save();
     listing.reviews.push(newReview);
     await listing.save();

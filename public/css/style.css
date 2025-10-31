@@ -145,3 +145,22 @@ body{
   margin-bottom: 2rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
+
+
+/* Hide scrollbar for a cleaner look */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Active category style */
+.category-active {
+  color: #ff385c;
+  border-bottom: 2px solid #ff385c;
+}
+
+/* Optional hover animation */
+.text-center:hover i,
+.text-center:hover p {
+  color: #ff385c;
+  transition: color 0.2s;
+}

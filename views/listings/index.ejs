@@ -2,7 +2,63 @@
 
 <body>
   <div class="container-fluid">
-    <h2 class="my-4">All Listings</h2>
+
+<%- include("../includes/filter.ejs") %>
+
+<!-- Active Filters Display -->
+<% const hasActiveFilters = query.category || query.priceRange || query.rating; %>
+<% if (hasActiveFilters) { %>
+  <div class="alert alert-info d-flex align-items-center gap-3 mb-4" role="alert">
+    <div class="d-flex align-items-center gap-2 flex-wrap">
+      <span><i class="fa-solid fa-filter"></i> <strong>Active Filters:</strong></span>
+      
+      <% if (query.category) { %>
+        <span class="badge bg-danger">Category: <%= query.category %></span>
+      <% } %>
+      
+      <% if (query.priceRange) { %>
+        <% 
+          let priceDisplay = '';
+          switch(query.priceRange) {
+            case '0-1000': priceDisplay = '₹0 - ₹1000'; break;
+            case '1000-5000': priceDisplay = '₹1000 - ₹5000'; break;
+            case '5000-10000': priceDisplay = '₹5000 - ₹10000'; break;
+            case '10000+': priceDisplay = '₹10000+'; break;
+            default: priceDisplay = query.priceRange;
+          }
+        %>
+        <span class="badge bg-warning text-dark">Price: <%= priceDisplay %></span>
+      <% } %>
+      
+      <% if (query.rating) { %>
+        <% if (query.rating === "no-rating") { %>
+          <span class="badge bg-secondary">Rating: No rating</span>
+        <% } else { %>
+          <span class="badge bg-success">Rating: <%= query.rating %>★ & up</span>
+        <% } %>
+      <% } %>
+      
+      <a href="/listings" class="btn btn-outline-danger btn-sm">
+        <i class="fa-solid fa-times"></i> Clear All
+      </a>
+    </div>
+  </div>
+<% } %>
+
+<!-- Results Count -->
+<% if (typeof allListings !== 'undefined' && allListings.length > 0) { %>
+  <h6 class="text-muted mb-3">
+    Found <%= allListings.length %> <%= allListings.length === 1 ? 'listing' : 'listings' %>
+  </h6>
+<% } else { %>
+  <div class="text-center py-5">
+    <i class="fa-solid fa-search fa-3x text-muted mb-3"></i>
+    <p class="text-muted fs-5">No listings found matching your criteria.</p>
+    <% if (hasActiveFilters) { %>
+      <a href="/listings" class="btn btn-danger">Clear Filters & View All</a>
+    <% } %>
+  </div>
+<% } %>
 
     <div class="row">
       <% for (let listing of allListings) { %>
@@ -31,4 +87,24 @@
       <% } %>
     </div>
   </div>
+
+
+  <script>
+const urlParams = new URLSearchParams(window.location.search);
+const activeCategory = urlParams.get("category");
+
+if (activeCategory) {
+  document.querySelectorAll(".category-item").forEach((btn) => {
+    if (btn.getAttribute("data-category") === activeCategory) {
+      btn.classList.add("text-danger"); // highlight active category
+      // 🔥 Scroll it into view smoothly
+setTimeout(() => {
+  btn.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+}, 300);
+
+    }
+  });
+}
+</script>
+
 </body>

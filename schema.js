@@ -12,8 +12,14 @@ const baseListingSchema = Joi.object({
     image:Joi.object({
       url: Joi.string().required(),
       filename: Joi.string().required()
-    }).required() // will override this in update
-  }).required()
+    }).required(), // will override this in update
+    categories: Joi.alternatives().try(  // ✅ NOW INSIDE listing object
+      Joi.array().items(Joi.string()),
+      Joi.string()
+    ).required().messages({
+      "any.required": "Please select at least one category."
+    })
+  }).required(),
 });
 
 const updateListingSchema  = Joi.object({
@@ -26,7 +32,11 @@ const updateListingSchema  = Joi.object({
     image:Joi.object({
       url: Joi.string().required(),
       filename: Joi.string().required()
-    }).optional() // will override this in update
+    }).optional(), // will override this in update
+    categories: Joi.alternatives().try(  // ✅ NOW INSIDE listing object
+      Joi.array().items(Joi.string()),
+      Joi.string()
+    ).required()
   }).required()
 }).unknown(true) ;
 
