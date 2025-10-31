@@ -7,8 +7,13 @@ const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
 //$ index controller
 module.exports.index = async (req, res) => {
-  const { category, priceRange, rating } = req.query;
+  const { category, priceRange, rating, search } = req.query;
   let filter = {};
+
+  // Search filter (case-insensitive search in title)
+  if (search) {
+    filter.title = { $regex: search, $options: "i" };
+  }
 
   // Category filter (from category buttons or modal)
   if (category) {
