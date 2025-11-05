@@ -58,16 +58,16 @@ wanderlust/
 ## ⚙️ Installation & Setup
 
 
-# clone repo
-git clone https://github.com/<your-username>/wanderlust.git
+##### clone repo
+git clone https://github.com/MANANPATEL7310/wanderlust.git
 cd wanderlust
 
-# install dependencies
+##### install dependencies
 npm install
 
-# add .env file with all required variables
+##### add .env file with all required variables
 
-# run application
+##### run application
 npm start
 
 
