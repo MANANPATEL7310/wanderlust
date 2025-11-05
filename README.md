@@ -57,7 +57,7 @@ wanderlust/
 
 ## ⚙️ Installation & Setup
 
-```bash
+
 # clone repo
 git clone https://github.com/<your-username>/wanderlust.git
 cd wanderlust
@@ -71,9 +71,11 @@ npm install
 npm start
 
 
-
 Application will run on:
 http://localhost:8080
+
+---
+
 
 ## 📦 Deployment
 
@@ -81,7 +83,7 @@ This project is deployed on Render
 Production URL: https://wanderlust-rk9p.onrender.com
 
 
-📌 Notes
+### 📌 Notes
 
 Booking feature not included yet (future scope)
 
