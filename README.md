@@ -75,7 +75,7 @@ npm start
 Application will run on:
 http://localhost:8080
 
-📦 Deployment
+## 📦 Deployment
 
 This project is deployed on Render
 Production URL: https://wanderlust-rk9p.onrender.com
